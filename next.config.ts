@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    serverComponentsExternalPackages: ["knex"],
+  },
+  images: {
+    // in a production app, this should be restricted to allowed domains only
+    remotePatterns: [{ protocol: "https", hostname: "*" }],
+  },
 };
 
 export default nextConfig;

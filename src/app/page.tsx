@@ -1,17 +1,9 @@
-"use client";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      Uniblox Assignment
-      <Button
-        onClick={() => {
-          console.log("hello");
-        }}
-      >
-        Click me!
-      </Button>
+      <Card />
     </div>
   );
 }

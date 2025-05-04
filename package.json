@@ -10,7 +10,9 @@
     "lint": "next lint",
     "db:make": "knex migrate:make",
     "db:migrate": "knex migrate:latest",
-    "db:rollback": "knex migrate:rollback"
+    "db:rollback": "knex migrate:rollback",
+    "seed:make": "knex seed:make",
+    "seed:run": "knex seed:run"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.0",

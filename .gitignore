@@ -12,6 +12,7 @@
 
 # database
 dev.sqlite3
+/seeds
 
 # testing
 /coverage
