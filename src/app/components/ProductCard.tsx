@@ -12,10 +12,11 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ProductType } from "@/types/product";
-import { handleAddToCart } from "../action";
+import { handleAddToCart } from "../products/action";
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const [quantity, setQuantity] = useState<number>(1);
+
   return (
     <Card key={product.id} className="pt-0.5 w-[250px]">
       <CardHeader className="px-0 flex h-50 flex-col items-center">
@@ -34,7 +35,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex justify-between h-15">
-        <div>{product.price}</div>
+        <div>${product.price}</div>
         <div className="flex">
           <Button
             className="w-[30px] h-[30px] rounded-r-none"

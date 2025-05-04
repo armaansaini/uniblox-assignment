@@ -6,7 +6,13 @@ export const getProducts = async () => {
   return db("product").select("*");
 };
 
-export const handleAddToCart = async ({ product_id, quantity }) => {
+export const handleAddToCart = async ({
+  product_id,
+  quantity,
+}: {
+  product_id: number;
+  quantity: number;
+}) => {
   let userCartFromDB = await db("cart")
     .where({
       user_id: 1,
@@ -32,14 +38,12 @@ export const handleAddToCart = async ({ product_id, quantity }) => {
 
   // if product present update the quantity
   if (productFromCart) {
-    console.log("item was present soo updating");
     return db("cart_items")
       .where({ id: productFromCart.id })
       .update({ quantity });
   }
 
   // else add the product
-  console.log("item wasn't there so adding");
   return db("cart_items").insert({
     cart_id: userCartFromDB.id,
     product_id,
