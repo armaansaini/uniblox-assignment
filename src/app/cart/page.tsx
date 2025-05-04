@@ -40,7 +40,7 @@ export default async function Cart() {
       </Table>
 
       {/* <DiscountCoupon /> */}
-      <DiscountCheckoutSection />
+      <DiscountCheckoutSection cart={cart} />
     </div>
   );
 }

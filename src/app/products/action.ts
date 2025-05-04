@@ -22,9 +22,9 @@ export const handleAddToCart = async ({
 
   // if no current cart, add one
   if (!userCartFromDB) {
-    userCartFromDB = await db("cart")
-      .insert({ user_id: 1, status: "current" })
-      .returning("*");
+    userCartFromDB = (
+      await db("cart").insert({ user_id: 1, status: "current" }).returning("*")
+    )[0];
   }
 
   // check if the product already in cart
