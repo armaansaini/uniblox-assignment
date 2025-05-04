@@ -5,8 +5,10 @@ import { useEffect, useState, useTransition } from "react";
 import { ClientCartType } from "../cart/action";
 
 export default function DiscountCheckoutSection({
+  isDiscountAvailable,
   cart,
 }: {
+  isDiscountAvailable: boolean;
   cart: ClientCartType[];
 }) {
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -26,15 +28,17 @@ export default function DiscountCheckoutSection({
 
   return (
     <div className="flex flex-col w-3/4">
-      <div className="text-lg flex justify-between items-center">
-        You have a discount coupon for 10%!{" "}
-        <Button
-          className="bg-green-500 hover:bg-green-700"
-          onClick={() => setIsDiscountApplied((s) => !s)}
-        >
-          {isDiscountApplied ? "Remove" : "Apply"}
-        </Button>
-      </div>
+      {isDiscountAvailable ? (
+        <div className="text-lg flex justify-between items-center">
+          You have a discount coupon for 10%!{" "}
+          <Button
+            className="bg-green-500 hover:bg-green-700"
+            onClick={() => setIsDiscountApplied((s) => !s)}
+          >
+            {isDiscountApplied ? "Remove" : "Apply"}
+          </Button>
+        </div>
+      ) : null}
 
       <div className="flex my-2 justify-between items-center">
         <div>Total Price: </div>

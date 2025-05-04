@@ -8,11 +8,18 @@ import {
 } from "@/components/ui/table";
 import { getUserCart } from "./action";
 import DiscountCheckoutSection from "../components/DiscountCheckoutSection";
-// import { getDiscountAvailable } from "../checkout/action";
+import { getDiscountAvailable } from "../checkout/action";
 
 export default async function Cart() {
   const cart = await getUserCart();
-  // const isDiscountAvailable = await getDiscountAvailable();
+  const isDiscountAvailable = await getDiscountAvailable();
+
+  if (!cart || cart.length === 0)
+    return (
+      <div className="flex flex-col w-1/2 mx-auto items-center">
+        Your cart is Empty
+      </div>
+    );
 
   return (
     <div className="flex flex-col w-1/2 mx-auto items-center">
@@ -39,8 +46,10 @@ export default async function Cart() {
         </TableBody>
       </Table>
 
-      {/* <DiscountCoupon /> */}
-      <DiscountCheckoutSection cart={cart} />
+      <DiscountCheckoutSection
+        isDiscountAvailable={isDiscountAvailable}
+        cart={cart}
+      />
     </div>
   );
 }

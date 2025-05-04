@@ -38,15 +38,17 @@ export const handleAddToCart = async ({
 
   // if product present update the quantity
   if (productFromCart) {
-    return db("cart_items")
+    await db("cart_items")
       .where({ id: productFromCart.id })
       .update({ quantity });
   }
 
   // else add the product
-  return db("cart_items").insert({
-    cart_id: userCartFromDB.id,
-    product_id,
-    quantity,
-  });
+  else {
+    await db("cart_items").insert({
+      cart_id: userCartFromDB.id,
+      product_id,
+      quantity,
+    });
+  }
 };

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 import {
   Card,
@@ -13,28 +13,30 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ProductType } from "@/types/product";
 import { handleAddToCart } from "../products/action";
+import Spinner from "./Spinner";
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const [quantity, setQuantity] = useState<number>(1);
+  const [isLoading, startTransition] = useTransition();
 
   return (
     <Card key={product.id} className="pt-0.5 w-[250px]">
-      <CardHeader className="px-0 flex h-50 flex-col items-center">
+      <CardHeader className="px-0 h-80 flex flex-col items-center">
         <Image
           src={product.image_url ?? ""}
           alt={product.name}
           width={200}
           height={200}
-          className="object-contain"
+          className="object-contain min-h-[200px] max-h-[200px]"
         />
         <CardTitle className="text-left w-full px-4">
           <>{product.name}</>
         </CardTitle>
-        <CardDescription className="text-left w-full px-4">
+        <CardDescription className="text-left line-clamp-4 w-full px-4">
           {product.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex justify-between h-15">
+      <CardContent className="flex justify-between h-10">
         <div>${product.price}</div>
         <div className="flex">
           <Button
@@ -66,9 +68,15 @@ export default function ProductCard({ product }: { product: ProductType }) {
       </CardContent>
       <CardFooter className="justify-end">
         <Button
-          onClick={() => handleAddToCart({ product_id: product.id, quantity })}
+          className="w-[100px]"
+          disabled={isLoading}
+          onClick={() =>
+            startTransition(() =>
+              handleAddToCart({ product_id: product.id, quantity })
+            )
+          }
         >
-          Add to Cart
+          {isLoading ? <Spinner /> : "Add to Cart"}
         </Button>
       </CardFooter>
     </Card>

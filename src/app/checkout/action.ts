@@ -3,8 +3,34 @@ import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { ClientCartType } from "../cart/action";
+import { OrderType } from "@/types/order";
 
-export const getDiscountAvailable = async () => {};
+export const getDiscountAvailable = async () => {
+  // count number of orders before the nth discount
+  const lastDiscountAppliedOrder: OrderType = await db("order")
+    .where({ user_id: 1 })
+    .whereNot("discount_applied", "=", 0)
+    .orderBy("id", "desc")
+    .first();
+
+  const lastDiscountAppliedOrderDate = lastDiscountAppliedOrder?.order_date;
+
+  let orderCount = 0;
+  if (!lastDiscountAppliedOrder) {
+    orderCount = (await db("order")
+      .where({ user_id: 1 })
+      .count("id as count")
+      .then((res) => res[0].count)) as number;
+  } else {
+    orderCount = (await db("order")
+      .where({ user_id: 1 })
+      .where("order_date", ">", lastDiscountAppliedOrderDate)
+      .count("id as count")
+      .then((res) => res[0].count)) as number;
+  }
+
+  return orderCount >= 2;
+};
 
 export const checkoutCart = async ({
   cart,
