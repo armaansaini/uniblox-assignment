@@ -1,6 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
+import { verifySession } from "@/lib/session";
 
 export type ClientCartType = {
   cart_id: number;
@@ -14,8 +15,10 @@ export type ClientCartType = {
 };
 
 export const getUserCart = async () => {
+  const session = await verifySession();
+
   return db("cart")
-    .where({ user_id: 1, status: "current" })
+    .where({ user_id: session.userId, status: "current" })
     .leftJoin("cart_items", "cart.id", "cart_items.cart_id")
     .leftJoin("product", "cart_items.product_id", "product.id")
     .select(
@@ -29,11 +32,3 @@ export const getUserCart = async () => {
       "product.price as product_price"
     );
 };
-
-// export const getTotalCartItems = async () => {
-//   return db("cart")
-//     .where({ user_id: 1, status: "current" })
-//     .leftJoin("cart_items", "cart.id", "cart_items.cart_id")
-//     .count("cart.id as count")
-//     .then((res) => res[0].count);
-// };

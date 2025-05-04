@@ -16,8 +16,8 @@ export default async function Cart() {
 
   if (!cart || cart.length === 0)
     return (
-      <div className="flex flex-col w-1/2 mx-auto items-center">
-        Your cart is Empty
+      <div className="flex w-1/2 justify-center text-neutral-500 my-4 text-lg tracking-wide leading-5 mx-auto">
+        Your cart is empty
       </div>
     );
 

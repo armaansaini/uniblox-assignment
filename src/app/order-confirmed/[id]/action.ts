@@ -1,6 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
+import { verifySession } from "@/lib/session";
 
 export type ClientOrderType = {
   order_id: number;
@@ -15,6 +16,8 @@ export type ClientOrderType = {
 };
 
 export const getOrderDetails = async (orderId: number) => {
+  await verifySession();
+
   return db("order")
     .where({ "order.id": orderId })
     .leftJoin("order_item", "order.id", "order_item.order_id")

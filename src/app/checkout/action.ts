@@ -4,11 +4,13 @@ import { redirect } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { ClientCartType } from "../cart/action";
 import { OrderType } from "@/types/order";
+import { verifySession } from "@/lib/session";
 
 export const getDiscountAvailable = async () => {
-  // count number of orders before the nth discount
+  const session = await verifySession();
+
   const lastDiscountAppliedOrder: OrderType = await db("order")
-    .where({ user_id: 1 })
+    .where({ user_id: session.userId })
     .whereNot("discount_applied", "=", 0)
     .orderBy("id", "desc")
     .first();
@@ -18,12 +20,12 @@ export const getDiscountAvailable = async () => {
   let orderCount = 0;
   if (!lastDiscountAppliedOrder) {
     orderCount = (await db("order")
-      .where({ user_id: 1 })
+      .where({ user_id: session.userId })
       .count("id as count")
       .then((res) => res[0].count)) as number;
   } else {
     orderCount = (await db("order")
-      .where({ user_id: 1 })
+      .where({ user_id: session.userId })
       .where("order_date", ">", lastDiscountAppliedOrderDate)
       .count("id as count")
       .then((res) => res[0].count)) as number;
@@ -39,6 +41,8 @@ export const checkoutCart = async ({
   cart: ClientCartType[];
   isDiscountApplied: boolean;
 }) => {
+  const session = await verifySession();
+
   const total_amount = cart.reduce((prev: number, curr) => {
     prev += curr.product_price * curr.product_quantity;
     return prev;
@@ -53,7 +57,7 @@ export const checkoutCart = async ({
   const final_amount = total_amount - discount_applied;
 
   const order = {
-    user_id: 1,
+    user_id: session.userId,
     order_date: new Date().toISOString(),
     status: "payment_captured",
     total_amount,

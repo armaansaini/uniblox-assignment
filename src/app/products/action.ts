@@ -1,6 +1,7 @@
 "use server";
 
 import db from "@/lib/db";
+import { verifySession } from "@/lib/session";
 
 export const getProducts = async () => {
   return db("product").select("*");
@@ -13,9 +14,11 @@ export const handleAddToCart = async ({
   product_id: number;
   quantity: number;
 }) => {
+  const session = await verifySession();
+
   let userCartFromDB = await db("cart")
     .where({
-      user_id: 1,
+      user_id: session.userId,
       status: "current",
     })
     .first();
@@ -23,7 +26,9 @@ export const handleAddToCart = async ({
   // if no current cart, add one
   if (!userCartFromDB) {
     userCartFromDB = (
-      await db("cart").insert({ user_id: 1, status: "current" }).returning("*")
+      await db("cart")
+        .insert({ user_id: session.userId, status: "current" })
+        .returning("*")
     )[0];
   }
 
