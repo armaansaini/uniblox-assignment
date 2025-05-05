@@ -13,6 +13,7 @@ export type ClientOrderType = {
   order_product_quantity: number;
   order_product_name: string;
   order_product_image_url: string;
+  promocode: string;
 };
 
 export const getOrderDetails = async (orderId: number) => {
@@ -22,6 +23,7 @@ export const getOrderDetails = async (orderId: number) => {
     .where({ "order.id": orderId })
     .leftJoin("order_item", "order.id", "order_item.order_id")
     .leftJoin("product", "order_item.product_id", "product.id")
+    .leftJoin("promocode", "order.promocode_id", "promocode.id")
     .select(
       "order.id as order_id",
       "order_item.id as order_item_id",
@@ -32,6 +34,7 @@ export const getOrderDetails = async (orderId: number) => {
       "order_item.product_id as order_product_id",
       "order_item.quantity as order_product_quantity",
       "product.name as order_product_name",
-      "product.image_url as order_product_image_url"
+      "product.image_url as order_product_image_url",
+      "promocode.code as promocode"
     );
 };

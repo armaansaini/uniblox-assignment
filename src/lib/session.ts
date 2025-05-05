@@ -8,7 +8,6 @@ const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function createSession(userId: string) {
-  console.log({ secretKey });
   const expireAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ userId, expireAt });
 
@@ -49,8 +48,7 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
     return payload;
-  } catch (error: any) {
-    console.error(error);
-    console.log("Failed to verify session");
+  } catch (error) {
+    console.error("Failed to verify session", error);
   }
 }

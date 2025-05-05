@@ -19,6 +19,7 @@ export type ClientSaleDetailsType = {
   order_product_quantity: number;
   order_product_name: string;
   order_product_image_url: string;
+  promocode: string;
 };
 
 const getSalesDetails = async (params: { userId: number; args: [number] }) => {
@@ -29,6 +30,7 @@ const getSalesDetails = async (params: { userId: number; args: [number] }) => {
     .leftJoin("order_item", "order_item.order_id", "order.id")
     .leftJoin("product", "order_item.product_id", "product.id")
     .leftJoin("user", "order.user_id", "user.id")
+    .leftJoin("promocode", "order.promocode_id", "promocode.id")
     .select(
       "order.id as order_id",
       "user.id as user_id",
@@ -44,7 +46,8 @@ const getSalesDetails = async (params: { userId: number; args: [number] }) => {
       "order_item.product_id as order_product_id",
       "order_item.quantity as order_product_quantity",
       "product.name as order_product_name",
-      "product.image_url as order_product_image_url"
+      "product.image_url as order_product_image_url",
+      "promocode.code as promocode"
     );
 };
 

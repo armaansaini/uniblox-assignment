@@ -19,7 +19,6 @@ export default async function SaleConfirmedPage({
     parseInt(id)
   );
 
-  console.log(salesDetails);
   return (
     <div className="flex flex-col w-1/2 mx-auto">
       <Table>
@@ -59,6 +58,11 @@ export default async function SaleConfirmedPage({
           <TableRow>
             <TableCell>Order Total Amount:</TableCell>
             <TableCell>${salesDetails[0].order_total_amount}</TableCell>
+          </TableRow>
+
+          <TableRow>
+            <TableCell>Promocode Used:</TableCell>
+            <TableCell>{salesDetails[0].promocode}</TableCell>
           </TableRow>
 
           <TableRow>

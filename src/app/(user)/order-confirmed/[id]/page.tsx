@@ -16,7 +16,6 @@ export default async function OrderConfirmedPage({
 }) {
   const { id } = await params;
   const orderDetails: ClientOrderType[] = await getOrderDetails(parseInt(id));
-  console.log(orderDetails);
   return (
     <div className="flex flex-col w-1/2 mx-auto">
       <Table>
@@ -42,6 +41,13 @@ export default async function OrderConfirmedPage({
             <TableCell>Order Payment Id:</TableCell>
             <TableCell>{orderDetails[0].payment_id}</TableCell>
           </TableRow>
+
+          {orderDetails[0].promocode ? (
+            <TableRow>
+              <TableCell>Promocode used:</TableCell>
+              <TableCell>{orderDetails[0].promocode}</TableCell>
+            </TableRow>
+          ) : null}
 
           <TableRow>
             <TableCell>Order Final Amount:</TableCell>

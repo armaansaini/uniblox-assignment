@@ -21,22 +21,22 @@ export default function ProductCard({ product }: { product: ProductType }) {
 
   return (
     <Card key={product.id} className="pt-0.5 w-[250px]">
-      <CardHeader className="px-0 h-80 flex flex-col items-center">
+      <CardHeader className="px-0 h-60 flex flex-col items-center">
         <Image
           src={product.image_url ?? ""}
           alt={product.name}
-          width={200}
-          height={200}
-          className="object-contain min-h-[200px] max-h-[200px]"
+          width={150}
+          height={150}
+          className="object-contain min-h-[150px] max-h-[150px]"
         />
         <CardTitle className="text-left w-full px-4">
           <>{product.name}</>
         </CardTitle>
-        <CardDescription className="text-left line-clamp-4 w-full px-4">
+        <CardDescription className="text-left line-clamp-3 w-full px-4">
           {product.description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex justify-between h-10">
+      <CardContent className="flex justify-between h-5">
         <div>${product.price}</div>
         <div className="flex">
           <Button

@@ -12,11 +12,13 @@ export type ClientSaleType = {
   final_amount: number;
   status: string;
   discount_applied: number;
+  promocode: string;
 };
 
 const getSales = async () => {
   return db("order")
     .leftJoin("user", "order.user_id", "user.id")
+    .leftJoin("promocode", "order.promocode_id", "promocode.id")
     .select(
       "order.id as order_id",
       "user.id as user_id",
@@ -25,7 +27,8 @@ const getSales = async () => {
       "order.order_date as order_date",
       "order.final_amount as final_amount",
       "order.status as status",
-      "order.discount_applied as discount_applied"
+      "order.discount_applied as discount_applied",
+      "promocode.code as promocode"
     );
 };
 

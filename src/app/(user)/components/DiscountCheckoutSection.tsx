@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/button";
 import { checkoutCart } from "../checkout/action";
 import { useEffect, useState, useTransition } from "react";
 import { ClientCartType } from "../cart/action";
+import { PromocodeType } from "@/types/promocode";
 
 export default function DiscountCheckoutSection({
-  discount,
+  promocode,
   cart,
 }: {
-  discount: { available: boolean; percentage: number };
+  promocode: PromocodeType;
   cart: ClientCartType[];
 }) {
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -16,7 +17,7 @@ export default function DiscountCheckoutSection({
   const [isPending, startTransition] = useTransition();
 
   const discountValue = Math.round(
-    (totalAmount * (discount.percentage ?? 1)) / 100
+    (totalAmount * (promocode.discount_percentage ?? 1)) / 100
   );
 
   useEffect(() => {
@@ -25,14 +26,14 @@ export default function DiscountCheckoutSection({
       return prev;
     }, 0);
     setTotalAmount(total_amount);
-    console.log(cart, total_amount);
   }, [cart]);
 
   return (
     <div className="flex flex-col w-3/4">
-      {discount.available ? (
+      {promocode && promocode.discount_percentage && promocode.active ? (
         <div className="text-lg flex justify-between items-center">
-          You have a discount coupon for {discount.percentage}%!{" "}
+          You have a discount coupon for {promocode.discount_percentage}%!{" "}
+          <div className="tracking-[2px] font-thin">{promocode.code}</div>
           <Button
             className="bg-green-500 hover:bg-green-700"
             onClick={() => setIsDiscountApplied((s) => !s)}
@@ -58,7 +59,7 @@ export default function DiscountCheckoutSection({
           startTransition(() =>
             checkoutCart({
               cart,
-              isDiscountApplied,
+              promocode: isDiscountApplied ? promocode.code : "",
             })
           )
         }

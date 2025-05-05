@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/table";
 import { getUserCart } from "./action";
 import DiscountCheckoutSection from "../components/DiscountCheckoutSection";
-import { getDiscountAvailable } from "../checkout/action";
+import { getPromocodeAvailable } from "../checkout/action";
 
 export default async function Cart() {
   const cart = await getUserCart();
-  const discount = await getDiscountAvailable();
+  const promocode = await getPromocodeAvailable();
 
   if (!cart || cart.length === 0)
     return (
@@ -46,7 +46,7 @@ export default async function Cart() {
         </TableBody>
       </Table>
 
-      <DiscountCheckoutSection discount={discount} cart={cart} />
+      <DiscountCheckoutSection promocode={promocode} cart={cart} />
     </div>
   );
 }

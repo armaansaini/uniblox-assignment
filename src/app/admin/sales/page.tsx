@@ -31,7 +31,7 @@ export default async function SalesPage() {
             <TableHead>Customer Email</TableHead>
             <TableHead>Order Date</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Discount Applied</TableHead>
+            <TableHead>Promocode</TableHead>
             <TableHead>Total Price</TableHead>
             <TableHead />
           </TableRow>
@@ -46,9 +46,7 @@ export default async function SalesPage() {
                 {new Date(sale.order_date).toUTCString()}
               </TableCell>
               <TableCell>{sale.status}</TableCell>
-              <TableCell className="text-green-700">
-                {sale.discount_applied ? `-$${sale.discount_applied}` : "-"}
-              </TableCell>
+              <TableCell className="text-green-700">{sale.promocode}</TableCell>
               <TableCell>${sale.final_amount}</TableCell>
               <TableCell>
                 <Link href={`/admin/sales/confirmed/${sale.order_id}`}>
