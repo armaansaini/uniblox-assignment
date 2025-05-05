@@ -5,7 +5,7 @@ import { createSession, deleteSession } from "@/lib/session";
 import { UserType } from "@/types/user";
 import { redirect } from "next/navigation";
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(prevState: unknown, formData: FormData) {
   const email = formData.get("email");
   const password = formData.get("password");
 

@@ -34,7 +34,8 @@ export async function deleteSession() {
   (await cookies()).delete("session");
 }
 
-export async function encrypt(payload: SessionPayload) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function encrypt(payload: any) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()

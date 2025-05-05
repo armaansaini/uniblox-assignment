@@ -12,7 +12,7 @@ import { getDiscountAvailable } from "../checkout/action";
 
 export default async function Cart() {
   const cart = await getUserCart();
-  const isDiscountAvailable = await getDiscountAvailable();
+  const discount = await getDiscountAvailable();
 
   if (!cart || cart.length === 0)
     return (
@@ -46,10 +46,7 @@ export default async function Cart() {
         </TableBody>
       </Table>
 
-      <DiscountCheckoutSection
-        isDiscountAvailable={isDiscountAvailable}
-        cart={cart}
-      />
+      <DiscountCheckoutSection discount={discount} cart={cart} />
     </div>
   );
 }

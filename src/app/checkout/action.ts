@@ -9,6 +9,9 @@ import { verifySession } from "@/lib/session";
 export const getDiscountAvailable = async () => {
   const session = await verifySession();
 
+  // using store id = 1 because there is only one store for simplicity
+  const storeData = await db("store_data").where({ id: 1 }).first();
+
   const lastDiscountAppliedOrder: OrderType = await db("order")
     .where({ user_id: session.userId })
     .whereNot("discount_applied", "=", 0)
@@ -31,7 +34,11 @@ export const getDiscountAvailable = async () => {
       .then((res) => res[0].count)) as number;
   }
 
-  return orderCount >= 2;
+  console.log(orderCount, storeData.orders_to_unlock_discount);
+  return {
+    available: orderCount >= storeData.orders_to_unlock_discount,
+    percentage: storeData.discount_percentage,
+  };
 };
 
 export const checkoutCart = async ({
@@ -43,6 +50,12 @@ export const checkoutCart = async ({
 }) => {
   const session = await verifySession();
 
+  // using store id = 1 because there is only one store for simplicity
+  const storeData = await db("store_data")
+    .where({ id: 1 })
+    .select("discount_percentage")
+    .first();
+
   const total_amount = cart.reduce((prev: number, curr) => {
     prev += curr.product_price * curr.product_quantity;
     return prev;
@@ -51,7 +64,9 @@ export const checkoutCart = async ({
   let discount_applied = 0;
 
   if (isDiscountApplied) {
-    discount_applied = Math.round((total_amount * 10) / 100);
+    discount_applied = Math.round(
+      (total_amount * storeData.discount_percentage) / 100
+    );
   }
 
   const final_amount = total_amount - discount_applied;
