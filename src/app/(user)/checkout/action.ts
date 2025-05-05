@@ -34,7 +34,6 @@ export const getDiscountAvailable = async () => {
       .then((res) => res[0].count)) as number;
   }
 
-  console.log(orderCount, storeData.orders_to_unlock_discount);
   return {
     available: orderCount >= storeData.orders_to_unlock_discount,
     percentage: storeData.discount_percentage,
@@ -50,11 +49,7 @@ export const checkoutCart = async ({
 }) => {
   const session = await verifySession();
 
-  // using store id = 1 because there is only one store for simplicity
-  const storeData = await db("store_data")
-    .where({ id: 1 })
-    .select("discount_percentage")
-    .first();
+  const discount = await getDiscountAvailable();
 
   const total_amount = cart.reduce((prev: number, curr) => {
     prev += curr.product_price * curr.product_quantity;
@@ -63,10 +58,10 @@ export const checkoutCart = async ({
 
   let discount_applied = 0;
 
-  if (isDiscountApplied) {
-    discount_applied = Math.round(
-      (total_amount * storeData.discount_percentage) / 100
-    );
+  console.log({ discount });
+
+  if (isDiscountApplied && discount.available) {
+    discount_applied = Math.round((total_amount * discount.percentage) / 100);
   }
 
   const final_amount = total_amount - discount_applied;

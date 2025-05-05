@@ -26,15 +26,15 @@ const getSalesDetails = async (params: { userId: number; args: [number] }) => {
 
   return db("order")
     .where({ "order.id": saleId })
-    .leftJoin("order_item", "order.id", "order_item.order_id")
+    .leftJoin("order_item", "order_item.order_id", "order.id")
     .leftJoin("product", "order_item.product_id", "product.id")
     .leftJoin("user", "order.user_id", "user.id")
     .select(
       "order.id as order_id",
       "user.id as user_id",
+      "order_item.id as order_item_id",
       "user.name as customer_name",
       "user.email as customer_email",
-      "order_item.id as order_item_id",
       "order.order_date as order_date",
       "order.status as order_status",
       "order.payment_id as order_payment_id",

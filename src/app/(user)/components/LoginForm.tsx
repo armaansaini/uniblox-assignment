@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { login } from "../action";
+import { login } from "../../login/action";
 import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {

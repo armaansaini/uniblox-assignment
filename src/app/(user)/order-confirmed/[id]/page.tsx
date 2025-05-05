@@ -16,6 +16,7 @@ export default async function OrderConfirmedPage({
 }) {
   const { id } = await params;
   const orderDetails: ClientOrderType[] = await getOrderDetails(parseInt(id));
+  console.log(orderDetails);
   return (
     <div className="flex flex-col w-1/2 mx-auto">
       <Table>

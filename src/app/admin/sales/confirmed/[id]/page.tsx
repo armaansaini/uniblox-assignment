@@ -9,7 +9,7 @@ import {
 import { ClientSaleDetailsType, getAdminSalesDetails } from "./action";
 import Image from "next/image";
 
-export default async function OrderConfirmedPage({
+export default async function SaleConfirmedPage({
   params,
 }: {
   params: { id: string };
@@ -18,6 +18,8 @@ export default async function OrderConfirmedPage({
   const salesDetails: ClientSaleDetailsType[] = await getAdminSalesDetails(
     parseInt(id)
   );
+
+  console.log(salesDetails);
   return (
     <div className="flex flex-col w-1/2 mx-auto">
       <Table>
