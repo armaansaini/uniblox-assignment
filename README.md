@@ -25,3 +25,23 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Routes:
+
+/ - Home Page with login and browse Products link
+
+/login - Login page
+
+/products - Ecom store home page to browse products
+
+/cart - user's cart page
+
+/orders - user's orders list page
+
+/order-confirmed/[id] - detailed order page
+
+/admin - admin page to edit discount percentage
+
+/admin/sales - list of all the sales made by customers
+
+/admin/sales/confirmed/[id] - detailed sale page
