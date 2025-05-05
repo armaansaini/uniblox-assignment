@@ -2,12 +2,15 @@ This is an Uniblox assignment. This is an ecommerce website where users can add 
 
 Steps to run on the local machine.
 
-1. Add dev.sqlite3 file in the root of the directory
-2. Run migrations with npm run db:migrate
-3. Run seeds with npm run seed:run
-4. Create and .env from .env.sample and populate it with the values
+1. Install dependencies with npm install
+2. Add dev.sqlite3 file in the root of the directory
+3. Run migrations with npm run db:migrate
+4. Run seeds with npm run seed:run
+5. Create and .env from .env.sample and populate it with the values
 
 ```bash
+npm install
+
 touch dev.sqlite3
 
 npm run db:migrate

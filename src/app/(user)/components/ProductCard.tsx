@@ -68,7 +68,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
       </CardContent>
       <CardFooter className="justify-end">
         <Button
-          className="w-[100px]"
+          className="w-[95px]"
           disabled={isLoading}
           onClick={() =>
             startTransition(() =>
